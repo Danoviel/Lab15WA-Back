@@ -1,0 +1,28 @@
+# Blueprint de Render para el backend.
+# En Render: New + > Blueprint > conecta el repo del backend.
+# Luego completa las variables marcadas como sync:false en el dashboard.
+services:
+  - type: web
+    name: backend-marketplace
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
