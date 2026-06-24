@@ -29,6 +29,24 @@ app.get('/', (req, res) => {
   res.json({ message: 'API E-commerce funcionando' });
 });
 
+// Diagnóstico temporal de conexión a la DB (quitar luego)
+app.get('/api/_debug/db', async (req, res) => {
+  const sequelize = require('./config/database');
+  const env = {
+    DB_HOST: process.env.DB_HOST || null,
+    DB_PORT: process.env.DB_PORT || null,
+    DB_NAME: process.env.DB_NAME || null,
+    DB_USER: process.env.DB_USER || null,
+    DB_PASSWORD_set: Boolean(process.env.DB_PASSWORD),
+  };
+  try {
+    await sequelize.authenticate();
+    res.json({ ok: true, env });
+  } catch (e) {
+    res.json({ ok: false, env, name: e.name, message: e.message, code: e.original && e.original.code });
+  }
+});
+
 // Manejo de errores 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
