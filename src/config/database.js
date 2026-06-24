@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const mysql2 = require('mysql2'); // requerido explícito para que se incluya en el bundle serverless (Vercel)
 require('dotenv').config();
 
 const sequelize = new Sequelize(
@@ -9,6 +10,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'mysql',
+    dialectModule: mysql2, // evita "Please install mysql2" en entornos serverless
     logging: false,
     pool: {
       max: 2,
